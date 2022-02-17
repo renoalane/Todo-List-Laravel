@@ -1,0 +1,31 @@
+* {
+    font-family: Tahoma, sans-serif;
+}
+
+body {
+    background-color: #f0f9ff !important;
+    display: flex !important;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    margin-top: 3rem;
+}
+
+.contain {
+    background-color: #fef9cb !important;
+    border: 1px solid #f7ce45;
+    border-radius: 1rem;
+    color: #1766af !important;
+}
+
+.this {
+    background-color: #f7ce45 !important;
+    color: #1766af !important;
+}
+
+.button {
+    background-color: #1766af !important;
+    color: #f7ce45 !important;
+}
