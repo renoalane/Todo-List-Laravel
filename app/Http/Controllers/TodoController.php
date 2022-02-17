@@ -15,7 +15,7 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todos = Todo::where('created_at', Carbon::today())->orderBy('completed')->get();
+        $todos = Todo::where('user_id', \auth()->user()->id)->orderBy('completed')->whereDate('created_at', Carbon::today()->toDateString())->orderBy('completed', 'desc')->get();
         return view('index', [
             'todos' => $todos,
             'active' => 'todo'
@@ -44,12 +44,12 @@ class TodoController extends Controller
             'name' => 'required'
         ]);
 
-        $validateData['user_id'] = 1;
+        $validateData['user_id'] = \auth()->user()->id;
         Todo::create($validateData);
 
         return redirect()
             ->back()
-            ->with('success', 'New Todo Create');
+            ->with('success', 'New to-do created successfully');
     }
 
     /**
@@ -71,6 +71,10 @@ class TodoController extends Controller
      */
     public function edit(Todo $todo)
     {
+        if ($todo->user_id !== \auth()->user()->id) {
+            \abort(403);
+        }
+
         return view('edit', [
             'todo' => $todo,
             'active' => 'todo'
@@ -91,6 +95,8 @@ class TodoController extends Controller
         ]);
 
         $todo->update($validateData);
+
+        return \redirect()->route('todo')->with('success', 'Todo has been updated');
     }
 
     public function completed(Todo $todo)
@@ -112,7 +118,6 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        dd($todo);
         $todo->delete();
 
         return redirect()->route('todo')->with('success', 'Todo has been deleted');
