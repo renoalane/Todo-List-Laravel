@@ -18,7 +18,7 @@ class LoginController extends Controller
     public function autenticate(Request $request)
     {
         $credential = $request->validate([
-            'email' => 'required|email:dns',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
@@ -29,7 +29,7 @@ class LoginController extends Controller
             return redirect()->intended('/todos');
         }
 
-        return back();
+        return back()->with('failedLogin', 'Failed Login');
     }
     public function logout(Request $request)
     {
