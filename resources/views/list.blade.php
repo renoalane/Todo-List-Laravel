@@ -12,13 +12,20 @@
                     <td>
                         <p class="fs5 pb-0 {{ $todo->completed === 1 ? 'text-decoration-line-through' : '' }}">{{ $todo->name }}</p>
                     </td>
+                    <td>
+                        @if ($todo->completed_at === null)
+                            uncompleted
+                        @else
+                            {{date('d-m-y H:i',strtotime($todo->completed_at))}}
+                        @endif
+                    </td>
                     <td class="text-end py-0">
                     <button class="btn btn-sm btn-danger btnDelete" data-bs-toggle='modal' data-id= "{{ $todo->id }}" data-bs-target='#deleteModal'><i class="bi bi-trash-fill"></i></button>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3" class="text-center">No todo today</td> 
+                    <td colspan="3" class="text-center">Empty to-do list</td> 
                 </tr>
                 @endforelse
             </tbody>
@@ -34,10 +41,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Delete The Todo ?</p>
+                    <p>Delete This Todo ?</p>
                 </div>
                 <div class="modal-footer">
-                    <form action="" class="formDelete" method="POST">
+                    <form action="" class="formDelete" method="post">
                         @csrf
                         @method('delete')
 
@@ -50,13 +57,9 @@
 
     <script>
     // Event Listener button delete
-    document.querySelector('.btnDelete').addEventListener('mousemove', ()=>{
-        console.log(document.querySelector('.btnDelete').val);
-    })
-
     $(".btnDelete").on("click", function(){
         const todo = $(this)[0].dataset.id;
-        $(".formDelete").attr('action', '/todos/{'+todo+'}');
+        $(".formDelete").attr('action', '/todolist/'+todo);
     });
     </script>
 @endsection

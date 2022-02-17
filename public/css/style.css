@@ -29,3 +29,12 @@ body {
     background-color: #1766af !important;
     color: #f7ce45 !important;
 }
+
+.todo {
+    cursor: pointer;
+}
+
+.link {
+    color: #f7ce45;
+    text-decoration: none;
+}
