@@ -17,6 +17,10 @@ use App\Http\Controllers\TodoListController;
 |
 */
 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store')->middleware('guest');
